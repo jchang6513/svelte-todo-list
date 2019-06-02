@@ -2,7 +2,7 @@
 	let todo = '';
 	let todos = [
 		{content: 'todo1', checked: true},
-		{content: 'todo1', checked: false},
+		{content: 'todo2', checked: false},
 	];
 
 	let types = [
@@ -12,7 +12,7 @@
 	];
 	let type = {text: 'All', value: 1};
 
-	function addtodo(event) {
+	function addTodo(event) {
 		todos = todos.concat({content: todo, checked: false})
 	}
 
@@ -23,14 +23,14 @@
 		})
 	}
 
-	$: shouldRender = (checked) => {
+	$: isTypeOf = (todo) => {
 		switch (type.value) {
 			case 1: // All
 				return true
 			case 2: // todo
-				return checked === false
+				return todo.checked === false
 			case 3: // Accomplished
-				return checked === true
+				return todo.checked === true
 		}
 	}
 
@@ -46,7 +46,7 @@
 <div class="container">
 	<h1>todo List</h1>
 
-	<form class="mb-3" on:submit|preventDefault={addtodo}>
+	<form class="mb-3" on:submit|preventDefault={addTodo}>
 		<input type="text" name="to-do" bind:value={todo}>
 		<button>Submit</button>
 	</form>
@@ -64,8 +64,8 @@
 	{/each}
 
 	<div class="mt-3">
-		{#each todos as {content, checked}, index}
-			{#if shouldRender(checked)}
+		{#each todos as todo, index}
+			{#if isTypeOf(todo)}
 				<div class="form-check">
 					<input
 						id={`item-${index}`}
@@ -73,13 +73,13 @@
 						type="checkbox"
 						value=""
 						bind:value={content}
-						checked={checked}
+						checked={todo.checked}
 					>
 					<label
 						class="form-check-label"
 						for={`item-${index}`}
 					>
-						{content}
+						{todo.content}
 					</label>
 				</div>
 			{/if}
