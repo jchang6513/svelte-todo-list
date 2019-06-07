@@ -75,38 +75,93 @@
 
 </script>
 
-<style>
-	.select, .select:hover {
-		background-color: red;
-		border-color: red;
+<style type="text/sass">
+	@import url('https://fonts.googleapis.com/css?family=Arimo&display=swap');
+	* {
+		font-family: 'Arimo', sans-serif;
+		outline: none !important;
+	}
+	.todo-list {
+		border: 1px solid #e6e6e6;
+		height: 80%;
+		margin: 10% auto;
+		padding: 30px;
+		width: 350px;
+		.title {
+			color: #565656;
+		}
+		.todo-form {
+			margin: 20px 0 30px;
+			position: relative;
+			width: 100%;
+			.todo-title {
+				border: none;
+				border-bottom: 1px solid #e6e6e6;
+				outline: none;
+				width: 100%;
+			}
+			.todo-submit {
+				bottom: 0px;
+				color: #a0a0a0;
+				position: absolute;
+				right: 0px;
+				&:hover, &:focus {
+					outline: none;
+				}
+			}
+		}
+		.type-group {
+			border-bottom: 1px solid #efefef;
+			margin-bottom: 30px;
+			.btn-type {
+				border: 1px solid #efefef;
+				border-radius: 5px 5px 0 0;
+				&:hover, &:focus {
+					outline: none;
+				}
+				&.select {
+					border-color: #565656;
+				}
+			}
+		}
+		.todo-items {
+			overflow:  scroll;
+			width: 100%;
+		}
+		.todo-item {
+			display: flex;
+			justify-content: space-between;
+		}
 	}
 </style>
 
-<div class="container">
-	<h1>todo List</h1>
+<div class="todo-list">
+	<h3 class="title">Todo List</h3>
 
-	<form class="mb-3" on:submit|preventDefault={addTodo}>
-		<input type="text" name="to-do" bind:value={todoTitle}>
-		<button>Submit</button>
+	<form class="todo-form" on:submit|preventDefault={addTodo}>
+		<input class="todo-title" type="text" name="to-do" bind:value={todoTitle}>
+		<button class="btn todo-submit">SUBMIT</button>
 	</form>
+	<div class="type-group">
+		{#each types as {text, value}, index}
+			<button
+				type="button"
+				class="btn btn-type"
+				class:select={value === type.value}
+				value={value}
+				on:click={changType}
+			>
+				{text}
+			</button>
+		{/each}
+	</div>
 
-	{#each types as {text, value}, index}
-		<button
-			type="button"
-			class="btn btn-primary mr-2"
-			class:select={value === type.value}
-			value={value}
-			on:click={changType}
-		>
-			{text}
-		</button>
-	{/each}
 
-
-	<div class="mt-3">
+	<div class="todo-items">
 		{#each todos as todo, index}
 			{#if isTypeOf(todo)}
-				<div class="form-check">
+				<div class="todo-item">
+					<div class="form-check">
 					<input
 						id={`item-${index}`}
 						class="form-check-input"
@@ -120,7 +175,9 @@
 					>
 						{todo.title}
 					</label>
+					</div>
 					<button
+						class="btn"
 						on:click={() => removeTodo(todo)}
 					>
 						X
