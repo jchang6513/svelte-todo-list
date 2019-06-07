@@ -15,7 +15,7 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/bundle.js'
+		file: production ? 'public/app.js' : 'public/bundle.js'
 	},
 	plugins: [
 		svelte({
@@ -27,7 +27,7 @@ export default {
         style: sass(),
       },
 			css: css => {
-				css.write('public/bundle.css');
+				css.write(production ? 'public/app.css' : 'public/bundle.css');
 			}
 		}),
 		// If you have external dependencies installed from

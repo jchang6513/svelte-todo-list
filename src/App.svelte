@@ -125,12 +125,13 @@
 			}
 		}
 		.todo-items {
+			height: calc(100% - 180px);
 			overflow:  scroll;
 			width: 100%;
-		}
-		.todo-item {
-			display: flex;
-			justify-content: space-between;
+			.todo-item {
+				display: flex;
+				justify-content: space-between;
+			}
 		}
 	}
 </style>
@@ -145,7 +146,6 @@
 	<div class="type-group">
 		{#each types as {text, value}, index}
 			<button
-				type="button"
 				class="btn btn-type"
 				class:select={value === type.value}
 				value={value}
