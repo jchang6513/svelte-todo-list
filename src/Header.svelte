@@ -10,7 +10,7 @@
 		dispatch('toggle');
   }
   function onChange(value) {
-		dispatch('change',{value});
+		dispatch('change',{ value });
 	}
 </script>
 
@@ -19,7 +19,6 @@
     background-color: #fff;
     border-radius: 10px;
     color: #565656;
-    margin: 0 -30px;
     position: fixed;
     text-align: center;
     width: 350px;
@@ -91,7 +90,12 @@
       border-radius: 0;
       color: #fff;
       width: 100%;
+      .title {
+        line-height: 80px;
+        margin: 0px;
+      }
       .btn-toggle {
+        top: 30px;
         &:after, &:before {
           border-color: #fff;
         }
@@ -105,7 +109,7 @@
   <button
     class="btn-toggle"
     class:show={typeCollapse}
-    on:click={onToggle}
+    on:click={() => onToggle()}
   >
   </button>
   <div
@@ -115,7 +119,7 @@
     {#each types as {text, value}, index}
       <p
         class="type-item"
-        on:click={() => {onChange(value)}}
+        on:click={() => onChange(value)}
       >
         {text} Tasks
       </p>
