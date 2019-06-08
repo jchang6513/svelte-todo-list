@@ -1,13 +1,13 @@
 <script>
 	import Store from './store.js';
 
+	let typeCollapse = false;
+	let type = {text: 'All', value: 1};
 	let types = [
 		{text: 'All', value: 1},
-		{text: 'todo', value: 2},
+		{text: 'Todo', value: 2},
 		{text: 'Accomplished', value: 3},
 	];
-
-	let type = {text: 'All', value: 1};
 
 	let todoTitle = ''
 	let todos = Store.isExist('todoList') ?
@@ -23,11 +23,14 @@
 	}
 
 // todo type
-	function changType(event) {
-		const value = parseInt(event.target.value);
+	function toggleType() {
+		typeCollapse = !typeCollapse
+	}
+	function changType(value) {
 		type = types.find(type => {
 			return type.value === value
 		})
+		toggleType()
 	}
 
 	$: isTypeOf = (todo) => {
@@ -82,16 +85,83 @@
 		outline: none !important;
 	}
 	.todo-list {
-		border: 1px solid #e6e6e6;
+		background-color: white;
+		border-radius: 5px;
 		height: 80%;
-		margin: 10% auto;
-		padding: 30px;
+		margin: calc(10% - 22px) auto;
+		padding: 0 30px 30px;
+		position: relative;
 		width: 350px;
-		.title {
+		.header {
+			background-color: #fff;
+			border-radius: 10px;
 			color: #565656;
+			margin: 0 -30px;
+			position: fixed;
+			text-align: center;
+			width: 350px;
+			z-index: 100;
+			.title {
+				line-height: 60px;
+				margin: 0px;
+			}
+			.btn-toggle {
+				background-color: transparent;
+				border: none;
+				height: 20px;
+				padding: 0px;
+				position: absolute;
+				right: 20px;
+				top: 20px;
+				width: 20px;
+				&:after, &:before {
+					border: solid #565656;
+					content: "";
+					height: 8px;
+					left: 0px;
+					position: absolute;
+					transition: all .2s;
+					width: 20px;
+				}
+				&:after {
+					border-width: 1px 0 0;
+					top: 2px;
+				}
+				&:before {
+					border-width: 1px 0;
+					top: 10px;
+				}
+				&.show {
+					&:after {
+						border-width: 1px 0 0;
+						left: -2px;
+						top: 8px;
+						transform: rotateZ(45deg);
+					}
+					&:before {
+						border-width: 0 0 1px;
+						height: 0px;
+						left: 1px;
+						top: 9px;
+						transform: rotateZ(-45deg);
+					}
+				}
+			}
+			.type-group {
+				max-height: 0px;
+				overflow: hidden;
+				transition: all .3s;
+				&.show {
+					max-height: 120px;
+				}
+				.type-item {
+					cursor: pointer;
+				}
+			}
 		}
 		.todo-form {
-			margin: 20px 0 30px;
+			margin: 30px 0;
+			padding-top: 80px;
 			position: relative;
 			width: 100%;
 			.todo-title {
@@ -110,7 +180,7 @@
 				}
 			}
 		}
-		.type-group {
+		type-group {
 			border-bottom: 1px solid #efefef;
 			margin-bottom: 30px;
 			.btn-type {
@@ -125,56 +195,75 @@
 			}
 		}
 		.todo-items {
-			height: calc(100% - 180px);
+			height: 380px;
 			overflow:  scroll;
+			padding-right: 5px;
 			width: 100%;
 			.todo-item {
 				display: flex;
 				justify-content: space-between;
+				.checked {
+					label {
+						color: #a0a0a0;
+						text-decoration: line-through;
+					}
+				}
 			}
 		}
 	}
 </style>
 
 <div class="todo-list">
-	<h3 class="title">Todo List</h3>
+	<div class="header">
+		<h5 class="title">{type.text} tasks</h5>
+		<button
+			class="btn-toggle"
+			class:show={typeCollapse}
+			on:click={() => toggleType()}
+		>
+		</button>
+		<div
+			class="type-group"
+			class:show={typeCollapse}
+		>
+			{#each types as {text, value}, index}
+				<p
+					class="type-item"
+					class:select={value === type.value}
+					on:click={() => changType(value)}
+				>
+					{text} tasks
+				</p>
+			{/each}
+		</div>
+	</div>
 
 	<form class="todo-form" on:submit|preventDefault={addTodo}>
 		<input class="todo-title" type="text" name="to-do" bind:value={todoTitle}>
 		<button class="btn todo-submit">SUBMIT</button>
 	</form>
-	<div class="type-group">
-		{#each types as {text, value}, index}
-			<button
-				class="btn btn-type"
-				class:select={value === type.value}
-				value={value}
-				on:click={changType}
-			>
-				{text}
-			</button>
-		{/each}
-	</div>
-
 
 	<div class="todo-items">
 		{#each todos as todo, index}
 			{#if isTypeOf(todo)}
 				<div class="todo-item">
-					<div class="form-check">
-					<input
-						id={`item-${index}`}
-						class="form-check-input"
-						type="checkbox"
-						checked={todo.checked}
-						on:click={() => updateTodo(todo,{checked: !todo.checked})}
+					<div
+						class="form-check"
+						class:checked={todo.checked}
 					>
-					<label
-						class="form-check-label"
-						for={`item-${index}`}
-					>
-						{todo.title}
-					</label>
+						<input
+							id={`item-${index}`}
+							class="form-check-input"
+							type="checkbox"
+							checked={todo.checked}
+							on:click={() => updateTodo(todo,{checked: !todo.checked})}
+						>
+						<label
+							class="form-check-label"
+							for={`item-${index}`}
+						>
+							{todo.title}
+						</label>
 					</div>
 					<button
 						class="btn"
