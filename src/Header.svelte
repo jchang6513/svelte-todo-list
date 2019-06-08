@@ -24,6 +24,7 @@
     width: 350px;
     z-index: 100;
     .title {
+      font-size: 25px;
       line-height: 60px;
       margin: 0px;
     }
@@ -40,29 +41,29 @@
       &:after, &:before {
         border: solid #565656;
         content: "";
-        height: 8px;
+        height: 10px;
         left: 0px;
         position: absolute;
         transition: all .2s;
         width: 20px;
       }
       &:after {
-        border-width: 1px 0 0;
+        border-width: 2px 0 0;
         top: 2px;
       }
       &:before {
-        border-width: 1px 0;
+        border-width: 2px 0;
         top: 10px;
       }
       &.show {
         &:after {
-          border-width: 1px 0 0;
+          border-width: 2px 0 0;
           left: -2px;
           top: 8px;
           transform: rotateZ(45deg);
         }
         &:before {
-          border-width: 0 0 1px;
+          border-width: 0 0 2px;
           height: 0px;
           left: 1px;
           top: 9px;
@@ -75,7 +76,8 @@
       overflow: hidden;
       transition: all .3s;
       &.show {
-        max-height: 120px;
+        height: 130px;
+        max-height: 130px;
       }
       .type-item {
         cursor: pointer;
@@ -84,8 +86,7 @@
   }
   @media (max-width: 576px) {
     .header {
-      background-color: #1fc8db;
-      background-image: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+      background-color: #00d7de;
       border-color: #fff;
       border-radius: 0;
       color: #fff;

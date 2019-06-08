@@ -25,7 +25,11 @@
     .todo-item {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      &:not(:last-child) {
+        border-bottom: 1px solid #e0e0e0;
+      }
       .checkbox-group, .checkbox, .checkbox-label {
         color: #565656;
         cursor: pointer;
@@ -34,36 +38,44 @@
       .checkbox {
         position: relative;
         margin: 0 10px;
+        outline: none;
         &:before {
           background-color: #dcdcdc;
           border-radius: 100%;
           content: '';
-          height: 25px;
+          height: 28px;
           left: -10px;
           position: absolute;
-          top: -7px;
-          width: 25px;
+          top: -8px;
+          width: 28px;
         }
         &:checked {
           &:before {
-            background-color: #0cd478;
+            background-color: #00d7de;
           }
           &:after {
             border: solid white;
             border-width: 0 0 4px 4px;
             content: '';
             height: 9px;
-            left: -5px;
+            left: -4px;
             position: absolute;
             top: 0px;
             transform: rotateZ(-45deg);
-            width: 16px;
+            width: 15px;
           }
           & ~ .checkbox-label {
             color: #a0a0a0;
             text-decoration: line-through;
           }
         }
+      }
+      .remove {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding-top: 0px;
+        outline: none;
       }
     }
   }
@@ -94,10 +106,10 @@
         </label>
       </div>
       <button
-        class="btn"
+        class="remove"
         on:click={() => onRemove(todo.id)}
       >
-        X
+        &#x2715
       </button>
     </div>
   {/each}

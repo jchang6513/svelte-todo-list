@@ -3,7 +3,6 @@
 	import Header from './Header.svelte'
 	import TodoItem from './TodoItem.svelte'
 
-	let forceUpdate = false;
 	let typeCollapse = false;
 	let type = {text: 'All', value: 1};
 	let types = [
@@ -45,8 +44,7 @@
 		forceUpdate = true;
 	}
 
-	function getTodos(type, forceUpdate) {
-		forceUpdate = false
+	function getTodos(type, todos) {
 		return todos.filter((todo) => {
 			switch (type.value) {
 				case 1: // All
@@ -81,7 +79,6 @@
 			Store.set('todoList', todos);
 			todos = todos;
 		}
-		forceUpdate = true;
 	}
 
 </script>
@@ -103,25 +100,30 @@
 		.todo-form {
 			margin: 80px 30px 0;
 			position: relative;
-			width: calc(100% - 60px);
+			width: calc(100% - 55px);
 			.todo-title {
 				border: none;
 				border-bottom: 1px solid #e6e6e6;
 				outline: none;
-				width: 100%;
+				width: calc(100% - 50px);
 			}
 			.todo-submit {
 				background: none;
+				background-color: #00d7de;
 				border: none;
+				border-radius: 100%;
 				bottom: 0px;
-				color: #565656;
+				color: #fff;
+				font-size: 25px;
+				font-weight: bold;
+				height: 40px;
+				line-height: 40px;
 				outline: none;
+				padding: 0px;
 				position: absolute;
 				right: 0px;
+    		width: 40px;
 				transition: all .3s;
-				&:disabled {
-					color: #a0a0a0;
-				}
 				&:hover, &:focus {
 					outline: none;
 				}
@@ -151,13 +153,13 @@
 	/>
 
 	<TodoItem
-		todos={getTodos(type, forceUpdate)}
+		todos={getTodos(type, todos)}
 		on:check={(event)=>updateTodo(event.detail.id, event.detail.value)}
 		on:remove={(event)=>removeTodo(event.detail.id)}
 	/>
 
 	<form class="todo-form" on:submit|preventDefault={addTodo}>
 		<input class="todo-title" type="text" name="to-do" bind:value={todoTitle}>
-		<button class="todo-submit" disabled={todoTitle === ''}>SUBMIT</button>
+		<button class="todo-submit" disabled={todoTitle === ''}>＋</button>
 	</form>
 </div>
