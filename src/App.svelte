@@ -180,20 +180,6 @@
 				}
 			}
 		}
-		type-group {
-			border-bottom: 1px solid #efefef;
-			margin-bottom: 30px;
-			.btn-type {
-				border: 1px solid #efefef;
-				border-radius: 5px 5px 0 0;
-				&:hover, &:focus {
-					outline: none;
-				}
-				&.select {
-					border-color: #565656;
-				}
-			}
-		}
 		.todo-items {
 			height: 380px;
 			overflow:  scroll;
@@ -210,12 +196,39 @@
 				}
 			}
 		}
+		@media (max-width: 576px) {
+			border-radius: 0px;
+			height: 100%;
+			margin: 0px;
+			position: absolute;
+			top: 0px;
+			width: 100%;
+			.header {
+				background-color: #1fc8db;
+    		background-image: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+				border-color: #fff;
+				border-radius: 0;
+				color: #fff;
+				width: 100%;
+				.btn-toggle {
+					&:after, &:before {
+						border-color: #fff;
+					}
+				}
+			}
+			.todo-form {
+				padding-top: 50px;
+			}
+			.todo-items {
+				height: calc(100% - 140px);
+			}
+		}
 	}
 </style>
 
 <div class="todo-list">
 	<div class="header">
-		<h5 class="title">{type.text} tasks</h5>
+		<h5 class="title">{type.text} Tasks</h5>
 		<button
 			class="btn-toggle"
 			class:show={typeCollapse}
@@ -232,7 +245,7 @@
 					class:select={value === type.value}
 					on:click={() => changType(value)}
 				>
-					{text} tasks
+					{text} Tasks
 				</p>
 			{/each}
 		</div>
