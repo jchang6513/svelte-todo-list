@@ -84,7 +84,7 @@
 </script>
 
 <style type="text/sass">
-	@import url('https://fonts.googleapis.com/css?family=Arimo&display=swap');
+	@import url('https://fonts.googleapis.com/css?family=Arimo|Lobster&display=swap');
 	* {
 		font-family: 'Arimo', sans-serif;
 		outline: none !important;
@@ -103,7 +103,7 @@
 			width: calc(100% - 55px);
 			.todo-title {
 				border: none;
-				border-bottom: 1px solid #e6e6e6;
+				border-bottom: 1px solid #c6c6c6;
 				outline: none;
 				width: calc(100% - 50px);
 			}

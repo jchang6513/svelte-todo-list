@@ -24,6 +24,7 @@
     width: 350px;
     z-index: 100;
     .title {
+      font-family: 'Lobster', cursive;
       font-size: 25px;
       line-height: 60px;
       margin: 0px;
@@ -35,7 +36,7 @@
       outline: none;
       padding: 0px;
       position: absolute;
-      right: 20px;
+      right: 25px;
       top: 20px;
       width: 20px;
       &:after, &:before {
@@ -88,7 +89,7 @@
     .header {
       background-color: #00d7de;
       border-color: #fff;
-      border-radius: 0;
+      border-radius: 0 0 20px 20px;
       color: #fff;
       width: 100%;
       .title {
